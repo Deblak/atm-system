@@ -1,7 +1,9 @@
 HELP.md
 target/
+bin/
 !**/src/main/**/target/
 !**/src/test/**/target/
+
 
 ### STS ###
 .apt_generated
@@ -27,10 +29,6 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 .DS_Store
-
-
-### app.properties ###
-**/application.properties
 
 ### logs ###
 ./logs
