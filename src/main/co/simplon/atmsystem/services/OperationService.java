@@ -23,7 +23,6 @@ public class OperationService {
 		double balance = account.getBalance();
 		if (amount % 10 != 0) {
 		    return "Montant invalide. Vous n'avez pas été débité.";
-
 		}
 		if (amount > balance) {
 		    return "Solde insuffisant";

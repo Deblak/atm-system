@@ -3,30 +3,24 @@ package main.co.simplon.atmsystem.utils;
 import java.util.Scanner;
 
 /**
- * Handling input(s) with Scanner class Methods: inputString(), inputInt() and
- * closeScanner
+ * Handling input(s) with Scanner class Methods: inputInt() and closeScanner
  */
 public class UserInput {
     static Scanner scanner = new Scanner(System.in);
 
     /**
      *
-     * @return scanner.nextLine()
-     */
-    public static String inputString() {
-	return scanner.nextLine();
-    }
-
-    /**
-     *
      * @return scanner.nextInt()
      */
     public static int inputInt() {
-	while (!scanner.hasNextInt()) {
-	    System.out.println("Veuillez entrer un nombre valide.");
-	    scanner.nextLine();
+	while (true) {
+	    if (scanner.hasNextInt()) {
+		return scanner.nextInt();
+	    } else {
+		System.out.println("Veuillez entrer un nombre valide.");
+		scanner.next();
+	    }
 	}
-	return scanner.nextInt();
     }
 
     /**
