@@ -8,7 +8,7 @@ import main.co.simplon.atmsystem.services.OperationService;
 import main.co.simplon.atmsystem.utils.UserInput;
 
 /**
- * connection and display menus
+ * Manage services for menu
  */
 public class AtmManager {
 
@@ -23,26 +23,33 @@ public class AtmManager {
 	this.operationService = operationService;
     }
 
-    public boolean pinRequest() {
-	int cardNumber = UserInput.inputInt();
+    public boolean pinRequest(int cardNumber, int pin) {
 
 	if (!cardService.cardExists(cards, cardNumber)) {
-	    System.out.println("Carte invalide.");
 	    return false;
 	}
 
-	System.out.println("Saisir code PIN :");
-	int codePin = UserInput.inputInt();
-
-	if (cardService.validate(cards, cardNumber, codePin)) {
-	    System.out.println("Code PIN valide.");
+	if (cardService.validate(cards, cardNumber, pin)) {
 	    cardService.unlock(cards, cardNumber);
 	    this.currentCard = cardNumber;
 	    return true;
 	} else {
-	    System.out.println("Code PIN invalide.");
 	    return false;
 	}
+    }
+
+    public String getBalance() {
+	if (currentCard != null) {
+	    return operationService.requestBalance(currentCard);
+	}
+	return "Erreur lecture solde.";
+    }
+
+    public String withdraw(int amount) {
+	if (currentCard == null) {
+	    return "Retrait impossible.";
+	}
+	return operationService.withdraw(currentCard, amount);
     }
 
     public void menu() {
