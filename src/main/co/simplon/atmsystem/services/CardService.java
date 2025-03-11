@@ -8,7 +8,6 @@ import main.co.simplon.atmsystem.utils.CsvWriter;
 import main.co.simplon.atmsystem.utils.FilePath;
 
 public class CardService {
-
     private final CsvReader csvReader;
     private final List<Card> data;
 

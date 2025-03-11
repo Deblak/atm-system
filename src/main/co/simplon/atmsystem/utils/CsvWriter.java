@@ -12,6 +12,9 @@ import main.co.simplon.atmsystem.entities.Card;
  * Replace Csv data
  */
 public class CsvWriter {
+
+    private List<String> lines;
+
     /**
      * Update card in the CSV file
      *
@@ -19,7 +22,6 @@ public class CsvWriter {
      * @param updatedCard
      */
     public void updateCard(String csvPath, Card updatedCard) {
-	List<String> lines;
 	try {
 	    lines = Files.readAllLines(Paths.get(csvPath));
 	    List<String> updatedLines = lines.stream().map(line -> {
@@ -39,13 +41,12 @@ public class CsvWriter {
     }
 
     /**
-     * Update staus lock/unlock in CSV file
+     * Update status lock to unlock in CSV file
      *
      * @param csvPath
      * @param setStatus
      */
     public void updateStatus(String csvPath, int cardNumber, boolean unlockStatus) {
-	List<String> lines;
 	try {
 	    lines = Files.readAllLines(Paths.get(csvPath));
 	    List<String> setLines = lines.stream().map(line -> {
@@ -59,7 +60,31 @@ public class CsvWriter {
 	    Files.write(Paths.get(csvPath), setLines);
 	} catch (IOException e) {
 	    e.printStackTrace();
-	    System.out.println("Error updating unlock status for card: " + cardNumber);
+	    System.out.println("Erreur, carte lock");
+	}
+    }
+
+    /**
+     * Update balance in CSV file
+     *
+     * @param csvPath
+     * @param balance
+     */
+    public void updateBalance(String csvPath, int cardNumber, double balance) {
+	try {
+	    lines = Files.readAllLines(Paths.get(csvPath));
+	    List<String> updatedLines = lines.stream().map(line -> {
+		String[] parts = line.split(";");
+		if (parts.length == 2 && parts[0].trim().equals(String.valueOf(cardNumber))) {
+		    return cardNumber + ";" + balance;
+		}
+		return line;
+	    }).collect(Collectors.toList());
+
+	    Files.write(Paths.get(csvPath), updatedLines);
+	} catch (IOException e) {
+	    e.printStackTrace();
+	    System.out.println("Echec mise à jour du solde.");
 	}
     }
 
