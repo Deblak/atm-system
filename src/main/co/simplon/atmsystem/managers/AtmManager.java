@@ -52,10 +52,22 @@ public class AtmManager {
 	if (option == 1) {
 	    if (currentCard != null) {
 		System.out.println(operationService.requestBalance(currentCard));
-		menu();
 	    } else {
-		System.out.println("Aucune carte active.");
+		System.out.println("Erreur lecture solde.");
 	    }
+	    menu();
+
+	} else if (option == 2) {
+
+	    if (currentCard != null) {
+		System.out.println("Entrer valeur.");
+		int amount = UserInput.inputInt();
+		System.out.println(operationService.withdraw(currentCard, amount));
+	    } else {
+		System.out.println("Retrait impossible.");
+	    }
+	    menu();
+
 	} else if (option == 3) {
 	    System.out.println("A bientot. N'oubliez pas votre carte.");
 	    UserInput.closeScanner();

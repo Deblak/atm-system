@@ -34,7 +34,7 @@ public class AtmController {
 	    if (atmManager.pinRequest()) {
 		atmManager.menu();
 	    } else {
-		System.out.println("Annulation en cours.");
+		System.out.println("Hors service.");
 	    }
 	} catch (IOException e) {
 	    e.printStackTrace();
