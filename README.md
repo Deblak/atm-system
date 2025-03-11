@@ -1,7 +1,7 @@
 # atm-system project 
 
 This project use : Java 17.
->Note: ATM interface is in french
+>Note: ATM interface (CLI) is in french
 
 ## Installation
  1 - clone the project
