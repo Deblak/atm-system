@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import main.co.simplon.atmsystem.entities.Account;
 import main.co.simplon.atmsystem.entities.Card;
 
 public class CsvReader {
     /**
-     * Read all csv file
+     * Read cards.csv file
      *
      * @param csvPath
      * @return
@@ -29,7 +30,7 @@ public class CsvReader {
 
 	} catch (IOException e) {
 	    e.printStackTrace();
-	    System.out.println("Resource not found.");
+	    System.out.println("Not found");
 	}
 	return cards;
     }
@@ -48,5 +49,22 @@ public class CsvReader {
 	    }
 	}
 	return null;
+    }
+
+    public List<Account> readAccounts(String csvPath) {
+	List<Account> accounts = new ArrayList<>();
+
+	try {
+	    accounts = Files.lines(Paths.get(csvPath)).skip(1).map(line -> line.split(";")).map(parts -> {
+		int cardNumber = Integer.parseInt(parts[0].trim());
+		double balance = Double.parseDouble(parts[1].trim());
+		Account account = new Account(cardNumber, balance);
+		return account;
+	    }).collect(Collectors.toList());
+	} catch (IOException e) {
+	    e.printStackTrace();
+	    System.out.println("Not found");
+	}
+	return accounts;
     }
 }
