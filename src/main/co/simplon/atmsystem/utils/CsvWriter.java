@@ -19,21 +19,20 @@ public class CsvWriter {
      * Update card in the CSV file
      *
      * @param csvPath
-     * @param updatedCard
+     * @param updateCard
      */
-    public void updateCard(String csvPath, Card updatedCard) {
+    public void updateCard(String csvPath, Card updateCard) {
 	try {
 	    lines = Files.readAllLines(Paths.get(csvPath));
-	    List<String> updatedLines = lines.stream().map(line -> {
+	    List<String> updateLines = lines.stream().map(line -> {
 		String[] parts = line.split(";");
-		if (parts.length == 3 && parts[0].trim().equals(String.valueOf(updatedCard.getCardNumber()))) {
-		    return updatedCard.getCardNumber() + ";" + updatedCard.getPin() + ";"
-			    + updatedCard.isUnlockStatus();
+		if (parts.length == 3 && parts[0].trim().equals(String.valueOf(updateCard.getCardNumber()))) {
+		    return updateCard.getCardNumber() + ";" + updateCard.getPin() + ";" + updateCard.isUnlockStatus();
 		}
 		return line;
 	    }).collect(Collectors.toList());
 
-	    Files.write(Paths.get(csvPath), updatedLines);
+	    Files.write(Paths.get(csvPath), updateLines);
 	} catch (IOException e) {
 	    e.printStackTrace();
 	    System.out.println("Error updating file: " + csvPath);
@@ -49,7 +48,7 @@ public class CsvWriter {
     public void updateStatus(String csvPath, int cardNumber, boolean unlockStatus) {
 	try {
 	    lines = Files.readAllLines(Paths.get(csvPath));
-	    List<String> setLines = lines.stream().map(line -> {
+	    List<String> updateLines = lines.stream().map(line -> {
 		String[] parts = line.split(";");
 		if (parts.length == 3 && parts[0].trim().equals(String.valueOf(cardNumber))) {
 		    return parts[0] + ";" + parts[1] + ";" + unlockStatus;
@@ -57,7 +56,7 @@ public class CsvWriter {
 		return line;
 	    }).collect(Collectors.toList());
 
-	    Files.write(Paths.get(csvPath), setLines);
+	    Files.write(Paths.get(csvPath), updateLines);
 	} catch (IOException e) {
 	    e.printStackTrace();
 	    System.out.println("Erreur, carte lock");
@@ -73,7 +72,7 @@ public class CsvWriter {
     public void updateBalance(String csvPath, int cardNumber, double balance) {
 	try {
 	    lines = Files.readAllLines(Paths.get(csvPath));
-	    List<String> updatedLines = lines.stream().map(line -> {
+	    List<String> updateLines = lines.stream().map(line -> {
 		String[] parts = line.split(";");
 		if (parts.length == 2 && parts[0].trim().equals(String.valueOf(cardNumber))) {
 		    return cardNumber + ";" + balance;
@@ -81,10 +80,27 @@ public class CsvWriter {
 		return line;
 	    }).collect(Collectors.toList());
 
-	    Files.write(Paths.get(csvPath), updatedLines);
+	    Files.write(Paths.get(csvPath), updateLines);
 	} catch (IOException e) {
 	    e.printStackTrace();
 	    System.out.println("Echec mise à jour du solde.");
+	}
+    }
+
+    /**
+     * Update ATM cash in CSV file
+     *
+     * @param csvPath
+     * @param cash
+     */
+    public void updateCashBack(String csvPath, int cash) {
+	try {
+	    String setCash = new String(Files.readAllBytes(Paths.get(csvPath))).trim();
+	    Files.write(Paths.get(csvPath), (String.valueOf(cash)).getBytes());
+
+	} catch (IOException e) {
+	    e.printStackTrace();
+	    System.out.println("Echec mise à jour cash back.");
 	}
     }
 

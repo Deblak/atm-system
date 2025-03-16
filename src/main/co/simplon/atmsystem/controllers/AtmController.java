@@ -3,8 +3,10 @@ package main.co.simplon.atmsystem.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import main.co.simplon.atmsystem.entities.AtmHardware;
 import main.co.simplon.atmsystem.entities.Card;
 import main.co.simplon.atmsystem.managers.AtmManager;
+import main.co.simplon.atmsystem.services.AtmHardwareService;
 import main.co.simplon.atmsystem.services.CardService;
 import main.co.simplon.atmsystem.services.OperationService;
 import main.co.simplon.atmsystem.utils.CsvReader;
@@ -20,13 +22,15 @@ public class AtmController {
     private CardService cardService;
     private OperationService operationService;
     private AtmManager atmManager;
+    private AtmHardwareService atmHardwareService;
 
     public AtmController() {
 	this.csvReader = new CsvReader();
 	List<Card> cards = csvReader.csvFile(FilePath.CARDS);
 	this.cardService = new CardService(csvReader);
 	this.operationService = new OperationService(csvReader);
-	this.atmManager = new AtmManager(cardService, cards, operationService);
+	this.atmHardwareService = new AtmHardwareService(new AtmHardware(0), csvReader);
+	this.atmManager = new AtmManager(cardService, operationService, atmHardwareService, cards, null);
     }
 
     public void run() {
