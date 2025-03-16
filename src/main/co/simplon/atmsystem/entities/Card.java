@@ -23,11 +23,6 @@ public class Card {
 	return pin;
     }
 
-    @Override
-    public String toString() {
-	return "Card [cardNumber=" + cardNumber + ", pin=" + pin + ", unlockStatus=" + unlockStatus + "]";
-    }
-
     public void setUnlockStatus(boolean unlockStatus) {
 	this.unlockStatus = unlockStatus;
     }
