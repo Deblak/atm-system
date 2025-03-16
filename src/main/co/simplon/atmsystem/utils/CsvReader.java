@@ -30,7 +30,7 @@ public class CsvReader {
 
 	} catch (IOException e) {
 	    e.printStackTrace();
-	    System.out.println("Not found");
+	    System.out.println("Card not found");
 	}
 	return cards;
     }
@@ -63,8 +63,26 @@ public class CsvReader {
 	    }).collect(Collectors.toList());
 	} catch (IOException e) {
 	    e.printStackTrace();
-	    System.out.println("Not found");
+	    System.out.println("Account not found");
 	}
 	return accounts;
+    }
+
+    /**
+     * Read cash available in ATM
+     *
+     * @param csvPath
+     * @return cash
+     */
+    public int readCash(String csvPath) {
+	int cash = 0;
+
+	try {
+	    cash = Integer.parseInt(Files.readAllLines(Paths.get(csvPath)).get(0));
+	} catch (IOException e) {
+	    e.printStackTrace();
+	    System.out.println("Cash not found");
+	}
+	return cash;
     }
 }

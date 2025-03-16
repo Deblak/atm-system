@@ -3,6 +3,7 @@ package main.co.simplon.atmsystem.managers;
 import java.util.List;
 
 import main.co.simplon.atmsystem.entities.Card;
+import main.co.simplon.atmsystem.services.AtmHardwareService;
 import main.co.simplon.atmsystem.services.CardService;
 import main.co.simplon.atmsystem.services.OperationService;
 import main.co.simplon.atmsystem.utils.UserInput;
@@ -14,13 +15,17 @@ public class AtmManager {
 
     private CardService cardService;
     private OperationService operationService;
+    private AtmHardwareService atmHardwareService;
     private List<Card> cards;
     private Integer currentCard = null;
 
-    public AtmManager(CardService cardService, List<Card> cards, OperationService operationService) {
+    public AtmManager(CardService cardService, OperationService operationService, AtmHardwareService atmHardwareService,
+	    List<Card> cards, Integer currentCard) {
 	this.cardService = cardService;
-	this.cards = cards;
 	this.operationService = operationService;
+	this.atmHardwareService = atmHardwareService;
+	this.cards = cards;
+	this.currentCard = currentCard;
     }
 
     public boolean pinRequest(int cardNumber, int pin) {
@@ -49,7 +54,15 @@ public class AtmManager {
 	if (currentCard == null) {
 	    return "Retrait impossible.";
 	}
-	return operationService.withdraw(currentCard, amount);
+	if (!atmHardwareService.checkCash(amount)) {
+	    return "Retrait hors-service : fonds insuffisants.";
+	}
+
+	if (atmHardwareService.checkJam()) {
+	    return "Erreur du cash back.";
+	} else {
+	    return operationService.withdraw(currentCard, amount);
+	}
     }
 
     public void menu() {
